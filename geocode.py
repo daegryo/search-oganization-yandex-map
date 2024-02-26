@@ -44,19 +44,12 @@ class Gecode:
 
         print(response.url)
 
-
-
-        image = Image.open(io.BytesIO(response.content))
-        image.save("C:\Work\maps\image.png")
-
     def spn(self):
         coords_l = self.toponym["boundedBy"]["Envelope"]["lowerCorner"].split()
         coords_r = self.toponym["boundedBy"]["Envelope"]["upperCorner"].split()
         delta = abs((float(coords_l[0]) - float(coords_r[0])) / 1.7)
         delta1 = abs((float(coords_l[1]) - float(coords_r[1])) / 1.7)
         return delta, delta1
-
-
 
 
         # Собираем параметры для запроса к StaticMapsAPI:
@@ -127,10 +120,6 @@ class Gecode:
 
             print(response.url)
 
-
-            image = Image.open(io.BytesIO(response.content))
-            image.save("C:\Work\maps\image.png")
-
     def one_point(self,org):
         print(org)
         search_api_server = "https://search-maps.yandex.ru/v1/"
@@ -166,16 +155,12 @@ class Gecode:
         point1 = organization["geometry"]["coordinates"]
         print(point1)
         org_point = "{0},{1}".format(point1[0], point1[1])
-        delta = "0.005"
-
-
+        delta = self.spn()
 
         # Собираем параметры для запроса к StaticMapsAPI:
         map_params = {
-            "ll": ",".join([self.toponym_longitude, self.toponym_lattitude]),
+            "ll": ",".join([str(point1[0]), str(point1[1])]),
             "spn": ",".join([str(delta[0]), str(delta[1])]),
-            #   "ll": ",".join([str(point1[0]), str(point1[1])]),
-            # "spn": ",".join([str(delta[0]), str(delta[1])]),
             "l": "map",
             "pt": f"{self.toponym_longitude},{self.toponym_lattitude},pm2rdm"
         }
@@ -183,11 +168,4 @@ class Gecode:
         # ... и выполняем запрос
         response = requests.get(map_api_server, params=map_params)
 
-        print(response.url)
-
-
-
-
-
-        image = Image.open(io.BytesIO(response.content))
-        image.save("C:\Work\maps\image.png")
+        return response.url
