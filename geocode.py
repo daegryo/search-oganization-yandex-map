@@ -162,7 +162,7 @@ class Gecode:
             "ll": ",".join([str(point1[0]), str(point1[1])]),
             "spn": ",".join([str(delta[0]), str(delta[1])]),
             "l": "map",
-            "pt": f"{self.toponym_longitude},{self.toponym_lattitude},pm2rdm"
+            "pt": f"{org_point},pm2dgl"
         }
         map_api_server = "http://static-maps.yandex.ru/1.x/"
         # ... и выполняем запрос
