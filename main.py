@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from geocode import Gecode
-from PIL import Image
+from urllib import request
 import os
 
 
@@ -19,11 +19,12 @@ class Window(QMainWindow):
 
     def search(self):
         object = self.zapros_lineEdit.text()
-        geo.one_point(object)
-        self.pixmap = QPixmap('image.png')
-        self.card_Label.setPixmap(self.pixmap)
-
-
+        map = geo.one_point(object)
+        print(map)
+        data = request.urlopen(map).read()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+        self.card_Label.setPixmap(pixmap)
 
 
 def except_hook(cls, exception, traceback):
