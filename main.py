@@ -16,6 +16,7 @@ class Window(QMainWindow):
         self.pixmap = QPixmap('image.png')
         self.card_Label.setPixmap(self.pixmap)
         self.searchButton.clicked.connect(self.search)
+        self.reset_button.clicked.connect(self.reset)
 
     def search(self):
         object = self.zapros_lineEdit.text()
@@ -25,6 +26,9 @@ class Window(QMainWindow):
         pixmap = QPixmap()
         pixmap.loadFromData(data)
         self.card_Label.setPixmap(pixmap)
+
+    def reset(self):
+        print(1)
 
 
 def except_hook(cls, exception, traceback):

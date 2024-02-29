@@ -12,7 +12,6 @@ class Gecode:
         geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
         self.api_key = "dda3ddba-c9ea-4ead-9010-f43fbc15c6e3"
 
-
         geocoder_params = {
             "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
             "geocode": adress,
@@ -120,10 +119,9 @@ class Gecode:
 
             print(response.url)
 
-    def one_point(self,org):
+    def one_point(self, org):
         print(org)
         search_api_server = "https://search-maps.yandex.ru/v1/"
-        org = org
         geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
         address_ll = f"{self.toponym_longitude},{self.toponym_lattitude}"
         search_params = {
