@@ -28,7 +28,8 @@ class Window(QMainWindow):
         self.card_Label.setPixmap(pixmap)
 
     def reset(self):
-        print(1)
+        self.pixmap = QPixmap('image.png')
+        self.card_Label.setPixmap(self.pixmap)
 
 
 def except_hook(cls, exception, traceback):
