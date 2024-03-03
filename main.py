@@ -31,6 +31,20 @@ class Window(QMainWindow):
         self.pixmap = QPixmap('image.png')
         self.card_Label.setPixmap(self.pixmap)
 
+    def keyPressEvent(self, event):
+        map = None
+        if event.key() == Qt.Key_PageUp:
+            map = geo.zoom(0)
+        elif event.key() == Qt.Key_PageDown:
+            map = geo.zoom(1)
+
+        if map:
+            print('daaaa')
+            data = request.urlopen(map).read()
+            pixmap = QPixmap()
+            pixmap.loadFromData(data)
+            self.card_Label.setPixmap(pixmap)
+
 
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)

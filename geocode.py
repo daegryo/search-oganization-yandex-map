@@ -11,6 +11,7 @@ class Gecode:
         adress =  adress
         geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
         self.api_key = "dda3ddba-c9ea-4ead-9010-f43fbc15c6e3"
+        self.map_params = {}
 
         geocoder_params = {
             "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
@@ -126,7 +127,7 @@ class Gecode:
         address_ll = f"{self.toponym_longitude},{self.toponym_lattitude}"
         search_params = {
             "apikey": self.api_key,
-            "text": "аптека",
+            "text":     "аптека",
             "lang": "ru_RU",
             "ll": address_ll,
             "type": "biz"
@@ -156,7 +157,7 @@ class Gecode:
         delta = self.spn()
 
         # Собираем параметры для запроса к StaticMapsAPI:
-        map_params = {
+        self.map_params = {
             "ll": ",".join([str(point1[0]), str(point1[1])]),
             "spn": ",".join([str(delta[0]), str(delta[1])]),
             "l": "map",
@@ -164,6 +165,21 @@ class Gecode:
         }
         map_api_server = "http://static-maps.yandex.ru/1.x/"
         # ... и выполняем запрос
-        response = requests.get(map_api_server, params=map_params)
+        response = requests.get(map_api_server, params=self.map_params)
+
+        return response.url
+
+    def zoom(self, pls):
+        spn = float(self.map_params['spn'].split(',')[0])
+        if pls == 0 and spn > 0.001:
+            if spn - 0.001 < 0.001:
+                spn = 0.001
+            else:
+                spn -= 0.001
+        if pls == 1:
+            spn += 0.001
+        self.map_params['spn'] = ",".join([str(spn), str(spn)])
+        print(self.map_params)
+        response = requests.get("http://static-maps.yandex.ru/1.x/", params=self.map_params)
 
         return response.url
